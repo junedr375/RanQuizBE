@@ -1,11 +1,7 @@
 services:
-  - type: web
+  - type: docker
     name: ranquiz-backend
-    env: go
-    buildCommand: |
-      python3 -m pip install -r requirements.txt
-      go build -o ranquiz-backend
-    startCommand: ./ranquiz-backend
+    dockerfilePath: Dockerfile
     envVars:
       - key: PORT
         value: "8080"
