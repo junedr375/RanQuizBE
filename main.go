@@ -28,7 +28,12 @@ func main() {
 	http.HandleFunc("/success", successHandler)
 	http.HandleFunc("/generate-questions", generateQuestionsHandler)
 
-	c := cors.Default()
+	c := cors.New(cors.Options{
+		AllowedOrigins:   []string{"*"},
+		AllowedMethods:   []string{"GET", "POST", "PUT", "DELETE", "OPTIONS"},
+		AllowedHeaders:   []string{"*"},
+		AllowCredentials: true,
+	})
 	handler := c.Handler(http.DefaultServeMux)
 
 	port := os.Getenv("PORT")
