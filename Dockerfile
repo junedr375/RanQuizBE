@@ -23,6 +23,8 @@ COPY --from=builder /app/ranquiz-backend ./ranquiz-backend
 COPY generate_questions.py ./generate_questions.py
 COPY requirements.txt ./requirements.txt
 
+RUN ls -la /app
+
 RUN pip3 install --no-cache-dir -r requirements.txt
 
 EXPOSE 8080

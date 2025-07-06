@@ -1,7 +1,7 @@
 services:
   - type: docker
     name: ranquiz-backend
-    dockerfilePath: Dockerfile
+    dockerfilePath: backend/Dockerfile
     envVars:
       - key: PORT
         value: "8080"
