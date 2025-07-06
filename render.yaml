@@ -3,7 +3,7 @@ services:
     name: ranquiz-backend
     env: go
     root_dir: backend
-    buildCommand: go mod tidy && GOOS=linux GOARCH=amd64 go build -o ranquiz-backend main.go && python3 -m venv venv && source venv/bin/activate && pip install -r requirements.txt
+    buildCommand: go mod tidy && GOOS=linux GOARCH=amd64 go build -o ranquiz-backend main.go && pip install -r requirements.txt
     startCommand: ./ranquiz-backend
     ports:
       - 8080
