@@ -1,36 +1,38 @@
-# Use an official Go runtime as a parent image
-FROM golang:1.20-slim
+FROM golang:1.20-slim AS go_builder
 
-# Set the working directory inside the container
 WORKDIR /app
 
-# Install Python, pip, and venv
-RUN apt-get update && apt-get install -y python3 python3-pip python3-venv
-
-# Copy Go module and dependency files
-COPY go.mod go.sum ./
-# Download Go dependencies
+COPY backend/go.mod backend/go.sum ./go/
+WORKDIR /app/go
 RUN go mod download
 
-# Copy Python dependency file
-COPY requirements.txt .
-# Create a virtual environment and install Python dependencies
+COPY backend/main.go backend/generate_questions.py ./go/
+WORKDIR /app/go
+RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -o ranquiz-backend main.go
+
+FROM python:3.10-slim AS python_builder
+
+WORKDIR /app
+
+COPY backend/requirements.txt ./python/
+WORKDIR /app/python
 RUN python3 -m venv venv
-# Debugging: List the contents of the /app directory to verify venv creation
-RUN ls -la /app
-RUN ./venv/bin/pip install -r requirements.txt
+RUN ./venv/bin/pip install --no-cache-dir -r requirements.txt
 
-# Copy the rest of the application's source code
-COPY . .
+FROM debian:bullseye-slim
 
-# Build the Go application
-RUN go build -o ranquiz-backend main.go
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    ca-certificates \
+    && rm -rf /var/lib/apt/lists/*
 
-# Make the binary executable
+WORKDIR /app
+
+COPY --from=go_builder /app/go/ranquiz-backend ./ranquiz-backend
+COPY --from=python_builder /app/python/venv ./venv
+COPY backend/generate_questions.py ./generate_questions.py
+
 RUN chmod +x ranquiz-backend
 
-# Expose port 8080 to the outside world
 EXPOSE 8080
 
-# Command to run the executable
 CMD ["./ranquiz-backend"]
