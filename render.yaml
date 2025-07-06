@@ -2,15 +2,15 @@ services:
   - type: web
     name: ranquiz-backend
     env: go
-    rootDir: backend
     buildCommand: |
       apt-get update && apt-get install -y python3 python3-pip python3-venv && \
+      cd backend && \
       go mod tidy && \
       GOOS=linux GOARCH=amd64 go build -o ranquiz-backend main.go && \
       python3 -m venv venv && \
       ./venv/bin/pip install -r requirements.txt && \
       chmod +x ranquiz-backend
-    startCommand: ./ranquiz-backend
+    startCommand: ./backend/ranquiz-backend
     ports:
       - 8080
     envVars:
