@@ -76,8 +76,8 @@ func generateQuestionsHandler(w http.ResponseWriter, r *http.Request) {
 // generateQuestionsFromPython executes the Python script to generate questions.
 // The Python script is now responsible for all parsing and transformation.
 func generateQuestionsFromPython(topic string) ([]Question, error) {
-	pythonPath := "/usr/bin/python3"
-	scriptPath := "generate_questions.py"
+	pythonPath := "./venv/bin/python3"
+	scriptPath := "./generate_questions.py"
 
 	cmd := exec.Command(pythonPath, scriptPath, topic)
 
