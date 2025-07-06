@@ -1,7 +1,10 @@
 import os
 import sys
 import json
+from dotenv import load_dotenv # Import load_dotenv
 from gumloop import GumloopClient
+
+load_dotenv() # Load environment variables from .env file
 
 def generate_questions():
     """
