@@ -3,12 +3,18 @@ services:
     name: ranquiz-backend
     env: go
     root_dir: backend
-    buildCommand: go mod tidy && GOOS=linux GOARCH=amd64 go build -o ranquiz-backend main.go && pip install -r requirements.txt
+    buildCommand: |
+      go mod tidy
+      GOOS=linux GOARCH=amd64 go build -o ranquiz-backend main.go
+      mkdir -p python_packages
+      pip install --target=./python_packages -r requirements.txt
     startCommand: ./ranquiz-backend
     ports:
       - 8080
     envVars:
       - key: GUMELOOP_API_KEY
-        sync: false # Set this value securely in Render dashboard
+        sync: false
       - key: GUMELOOP_USER_ID
-        sync: false # Set this value securely in Render dashboard
+        sync: false
+      - key: PYTHONPATH
+        value: /opt/render/project/src/github.com/junedr375/RanQuizBE/backend/python_packages
