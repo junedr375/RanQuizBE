@@ -20,6 +20,7 @@ WORKDIR /app
 
 COPY --from=builder /app/ranquiz-backend ./ranquiz-backend
 
+RUN ls -la .
 COPY generate_questions.py ./generate_questions.py
 COPY requirements.txt ./requirements.txt
 
