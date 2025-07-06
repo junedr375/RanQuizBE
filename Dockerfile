@@ -16,6 +16,8 @@ RUN go mod download
 COPY requirements.txt .
 # Create a virtual environment and install Python dependencies
 RUN python3 -m venv venv
+# Debugging: List the contents of the /app directory to verify venv creation
+RUN ls -la /app
 RUN ./venv/bin/pip install -r requirements.txt
 
 # Copy the rest of the application's source code
