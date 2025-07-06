@@ -1,6 +1,7 @@
 import os
 import sys
 import json
+from dotenv import load_dotenv
 from gumloop import GumloopClient
 
 def generate_questions():
@@ -10,6 +11,7 @@ def generate_questions():
     Returns the transformed list of questions in the format expected by the Go backend.
     """
     # Load environment variables from .env file
+    load_dotenv()
 
     if len(sys.argv) < 2:
         print(json.dumps({"error": "Topic argument is missing"}), file=sys.stderr)
