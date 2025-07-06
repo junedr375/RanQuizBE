@@ -2,13 +2,16 @@ services:
   - type: web
     name: ranquiz-backend
     env: go
-    root_dir: backend
-    buildCommand: go mod tidy && GOOS=linux GOARCH=amd64 go build -o ranquiz-backend main.go && pip install -r requirements.txt
+    buildCommand: |
+      python3 -m pip install -r requirements.txt
+      go build -o ranquiz-backend
     startCommand: ./ranquiz-backend
-    ports:
-      - 8080
     envVars:
+      - key: PORT
+        value: "8080"
       - key: GUMELOOP_API_KEY
         sync: false
       - key: GUMELOOP_USER_ID
+        sync: false
+      - key: GUMELOOP_FLOW_ID
         sync: false

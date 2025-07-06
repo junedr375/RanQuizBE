@@ -29,6 +29,9 @@ def generate_questions():
     if not user_id:
         print(json.dumps({"error": "GUMELOOP_USER_ID not found in .env file"}), file=sys.stderr)
         sys.exit(1)
+    if not saved_item_id:
+        print(json.dumps({"error": "GUMELOOP_FLOW_ID not found in .env file"}), file=sys.stderr)
+        sys.exit(1)
 
     try:
         client = GumloopClient(api_key=api_key, user_id=user_id)
