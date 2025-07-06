@@ -1,5 +1,4 @@
 gumloop
-python-dotenv
 requests
 charset-normalizer
 idna
