@@ -4,10 +4,13 @@ services:
     env: go
     buildCommand: |
       apt-get update && apt-get install -y python3 python3-pip && \
+      python3 --version && pip3 --version && \
+      pip3 install --upgrade pip && \
+      pip3 install --no-cache-dir --upgrade --force-reinstall -r requirements.txt && \
+      python3 -m pip show gumloop && \
+      chmod +x ranquiz-backend && \
       go mod tidy && \
-      GOOS=linux GOARCH=amd64 go build -o ranquiz-backend main.go && \
-      pip3 install -r requirements.txt && \
-      chmod +x ranquiz-backend
+      GOOS=linux GOARCH=amd64 go build -o ranquiz-backend main.go
     startCommand: ./ranquiz-backend
     ports:
       - 8080
