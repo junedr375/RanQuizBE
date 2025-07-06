@@ -8,7 +8,7 @@ services:
       GOOS=linux GOARCH=amd64 go build -o ranquiz-backend main.go
       python3 -m venv venv
       ./venv/bin/pip install -r requirements.txt
-    startCommand: ./.venv/bin/activate && ./ranquiz-backend
+    startCommand: ./ranquiz-backend
     ports:
       - 8080
     envVars:
