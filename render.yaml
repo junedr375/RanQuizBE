@@ -10,7 +10,7 @@ services:
       python3 -m venv venv && \
       ./venv/bin/pip install -r requirements.txt && \
       chmod +x ranquiz-backend
-    startCommand: cd backend && ./ranquiz-backend
+    startCommand: cd backend && ls -la && ./ranquiz-backend
     ports:
       - 8080
     envVars:
