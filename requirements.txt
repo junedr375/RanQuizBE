@@ -1,0 +1,7 @@
+gumloop
+python-dotenv
+requests
+charset-normalizer
+idna
+urllib3
+certifi

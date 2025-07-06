@@ -11,7 +11,7 @@ def generate_questions():
     Returns the transformed list of questions in the format expected by the Go backend.
     """
     # Load environment variables from .env file
-    load_dotenv()
+    load_dotenv(dotenv_path='.env')
 
     if len(sys.argv) < 2:
         print(json.dumps({"error": "Topic argument is missing"}), file=sys.stderr)
@@ -21,8 +21,7 @@ def generate_questions():
     
     api_key = os.getenv("GUMELOOP_API_KEY")
     user_id = os.getenv("GUMELOOP_USER_ID")
-    saved_item_id = "o4NhvSuPc3giwpsWc7W1hE" # This was hardcoded in the curl, so keeping it here
-
+    saved_item_id = os.getenv("GUMELOOP_FLOW_ID")
     if not api_key:
         print(json.dumps({"error": "GUMELOOP_API_KEY not found in .env file"}), file=sys.stderr)
         sys.exit(1)
