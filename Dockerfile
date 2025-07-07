@@ -26,7 +26,8 @@ RUN ls -la /app
 RUN python3 -m venv /app/venv
 ENV PATH="/app/venv/bin:$PATH"
 
-RUN pip3 install --no-cache-dir -r requirements.txt
+RUN /app/venv/bin/pip install --no-cache-dir -r requirements.txt
+RUN echo "Python packages in venv:" && /app/venv/bin/pip list
 
 EXPOSE 8080
 
