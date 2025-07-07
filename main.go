@@ -29,7 +29,7 @@ func main() {
 	http.HandleFunc("/generate-questions", generateQuestionsHandler)
 
 	c := cors.New(cors.Options{
-				AllowedOrigins: []string{"https://enchanting-truffle-462314.netlify.app/"},
+		AllowedOrigins:   []string{"https://enchanting-truffle-462314.netlify.app/"},
 		AllowedMethods:   []string{"GET", "POST", "PUT", "DELETE", "OPTIONS"},
 		AllowedHeaders:   []string{"*"},
 		AllowCredentials: true,
@@ -87,7 +87,7 @@ func generateQuestionsHandler(w http.ResponseWriter, r *http.Request) {
 // The Python script is now responsible for all parsing and transformation.
 func generateQuestionsFromPython(topic string) ([]Question, error) {
 	pythonPath := "python3"
-	scriptPath := "generate_questions.py"
+	scriptPath := "/app/generate_questions.py"
 
 	cmd := exec.Command(pythonPath, scriptPath, topic)
 
