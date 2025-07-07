@@ -29,7 +29,10 @@ func main() {
 	http.HandleFunc("/generate-questions", generateQuestionsHandler)
 
 	c := cors.New(cors.Options{
-		AllowedOrigins:   []string{"https://enchanting-truffle-462314.netlify.app/"},
+		AllowedOrigins: []string{
+			"https://enchanting-truffle-462314.netlify.app",
+			"http://localhost:3000",
+		},
 		AllowedMethods:   []string{"GET", "POST", "PUT", "DELETE", "OPTIONS"},
 		AllowedHeaders:   []string{"*"},
 		AllowCredentials: true,
