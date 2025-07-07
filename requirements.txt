@@ -4,3 +4,4 @@ charset-normalizer
 idna
 urllib3
 certifi
+python-dotenv

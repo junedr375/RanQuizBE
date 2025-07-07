@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"log"
 	"net/http"
+	"os"
 	"os/exec"
 
 	"github.com/rs/cors"
@@ -27,11 +28,20 @@ func main() {
 	http.HandleFunc("/success", successHandler)
 	http.HandleFunc("/generate-questions", generateQuestionsHandler)
 
-	c := cors.Default()
+	c := cors.New(cors.Options{
+		AllowedOrigins:   []string{"*"},
+		AllowedMethods:   []string{"GET", "POST", "PUT", "DELETE", "OPTIONS"},
+		AllowedHeaders:   []string{"*"},
+		AllowCredentials: true,
+	})
 	handler := c.Handler(http.DefaultServeMux)
 
-	log.Println("Server starting on port 8080...")
-	log.Fatal(http.ListenAndServe(":8080", handler))
+	port := os.Getenv("PORT")
+	if port == "" {
+		port = "8080" // Default port if not specified
+	}
+	log.Printf("Server starting on port %s...", port)
+	log.Fatal(http.ListenAndServe(":"+port, handler))
 }
 
 func successHandler(w http.ResponseWriter, r *http.Request) {
@@ -77,13 +87,18 @@ func generateQuestionsHandler(w http.ResponseWriter, r *http.Request) {
 // The Python script is now responsible for all parsing and transformation.
 func generateQuestionsFromPython(topic string) ([]Question, error) {
 	pythonPath := "python3"
-	scriptPath := "./generate_questions.py"
+	scriptPath := "generate_questions.py"
 
 	cmd := exec.Command(pythonPath, scriptPath, topic)
 
 	output, err := cmd.CombinedOutput()
 	if err != nil {
-		return nil, fmt.Errorf("failed to execute python script: %w, output: %s", err, string(output))
+		// Capture stderr separately for better error reporting
+		stderrOutput := ""
+		if exitErr, ok := err.(*exec.ExitError); ok {
+			stderrOutput = string(exitErr.Stderr)
+		}
+		return nil, fmt.Errorf("failed to execute python script: %w, stdout: %s, stderr: %s", err, string(output), stderrOutput)
 	}
 
 	var questions []Question
